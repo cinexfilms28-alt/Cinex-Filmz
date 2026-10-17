@@ -98,8 +98,7 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (user && user.email &&
-          user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase() &&
-          user.emailVerified) {
+    user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
         loginPanel.style.display = "none";
         dashboard.style.display = "block";
         document.getElementById("welcome").textContent =
@@ -123,9 +122,7 @@
             auth, email, password
           );
 
-          if (!result.user.emailVerified ||
-              result.user.email.toLowerCase() !==
-              ADMIN_EMAIL.toLowerCase()) {
+         if (result.user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
             await signOut(auth);
             showLogin("Admin account not authorized or email not verified.");
           }
