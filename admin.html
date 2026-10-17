@@ -126,8 +126,9 @@
             await signOut(auth);
             showLogin("Admin account not authorized or email not verified.");
           }
-        } catch (error) {
-          showLogin("Login failed. Check your email and password.");
+      } catch (error) {
+  showLogin("Login error: " + error.code);
+}
         } finally {
           loginBtn.disabled = false;
         }
