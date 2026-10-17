@@ -1,5 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<style>
+/* CINEX INTRO */
+#cinex-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #070609;
+  overflow: hidden;
+  animation: cinexIntroOut .7s ease 3.3s forwards;
+}
+
+.cinex-intro-film {
+  position: absolute;
+  inset: 0;
+  opacity: .13;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 42px,
+      #ff244b 43px 45px,
+      transparent 46px 88px
+    );
+  animation: cinexFilmMove 2s linear infinite;
+}
+
+.cinex-intro-content {
+  position: relative;
+  text-align: center;
+  animation: cinexLogoIn 1s ease both;
+}
+
+.cinex-intro-logo {
+  margin: 0;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: clamp(48px, 12vw, 100px);
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-shadow: 0 0 25px #ff244b35;
+}
+
+.cinex-intro-logo span {
+  color: #ff244b;
+}
+
+.cinex-intro-subtitle {
+  margin-top: 12px;
+  color: #aaa;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+}
+
+.cinex-intro-loader {
+  width: 150px;
+  height: 2px;
+  margin: 28px auto 0;
+  background: #29252b;
+  overflow: hidden;
+}
+
+.cinex-intro-loader::after {
+  content: "";
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: #ff244b;
+  animation: cinexLoading 2.7s ease-in-out forwards;
+}
+
+@keyframes cinexLogoIn {
+  from { opacity: 0; transform: scale(.88); filter: blur(8px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes cinexFilmMove {
+  from { transform: translateX(-45px); }
+  to { transform: translateX(45px); }
+}
+
+@keyframes cinexLoading {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes cinexIntroOut {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #cinex-intro,
+  .cinex-intro-content,
+  .cinex-intro-film,
+  .cinex-intro-loader::after {
+    animation-duration: .01ms;
+    animation-delay: 0ms;
+  }
+}
+</style>
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#08070a"><meta name="description" content="CINEX — a cinematic YouTube experience.">
 <title>CINEX — Enter the Cinema</title>
@@ -52,6 +156,34 @@ nav a.active-nav:not(.nav-sub):not(.nav-film)::after{content:"";display:block;he
 </style>
 </head>
 <body>
+<div id="cinex-intro" aria-label="CINEX intro">
+  <div class="cinex-intro-film"></div>
+
+  <div class="cinex-intro-content">
+    <h1 class="cinex-intro-logo">
+      CINE<span>X</span>
+    </h1>
+
+    <div class="cinex-intro-subtitle">
+      ENTER THE CINEMA
+    </div>
+
+    <div class="cinex-intro-loader"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const intro = document.getElementById("cinex-intro");
+
+  if (!intro) return;
+
+  window.setTimeout(function () {
+    intro.remove();
+  }, 4100);
+})();
+</script>
+
 <div class="grain" aria-hidden="true"></div><div class="cursor-glow" id="glow" aria-hidden="true"></div><div class="cursor-dot" id="dot" aria-hidden="true"></div>
 <header><a class="logo" href="#home" data-page="home" aria-label="CINEX home">CINE<span>X</span></a><nav aria-label="Main navigation"><a href="#home" data-page="home" class="active-nav">HOME</a><a href="#channel" data-page="channel">CINEX CHANNEL</a><a class="nav-film" href="#film-collection" data-page="films">FILM COLLECTION ↘</a><a href="#videos" data-page="videos">YOU TUBE VIDEOS</a><a class="nav-sub" href="#subscribe" data-page="subscribe">SUBSCRIBE ↗</a><a href="#discover" data-page="home" data-target="discover">EXPLORE MORE</a></nav></header>
 <main>
