@@ -153,9 +153,17 @@ h2{font-size:16px;margin:0}.table-wrap{overflow-x:auto}table{width:100%;border-c
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
 import {
-  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5t1V-cXpPYQJvMzQlrM5hhaVmTn1DtR8",
@@ -167,17 +175,11 @@ const firebaseConfig = {
   measurementId: "G-CRNR7BQRQ1"
 };
 const ADMIN_EMAIL = "cinexfilms28@gmail.com";
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const db = getFirestore(app);
 
 const $ = id => document.getElementById(id);
 const authScreen = $("authScreen"), appScreen = $("app"), loginBtn = $("loginBtn");
-let movies = [
-  {id:1,title:"Spider-Man: Brand New Day",category:"Action",status:"Published",image:"",url:"",description:""},
-  {id:2,title:"BOSS BABY",category:"Animation",status:"Published",image:"",url:"",description:""},
-  {id:3,title:"The Amazing Spider-Man",category:"Adventure",status:"Published",image:"",url:"",description:""},
-  {id:4,title:"Movie Collection",category:"Drama",status:"Draft",image:"",url:"",description:""}
-];
+let movies = [];
 
 function showLogin(message=""){
   authScreen.classList.remove("hidden");
@@ -188,7 +190,7 @@ function showDashboard(user){
   authScreen.classList.add("hidden");
   appScreen.classList.remove("hidden");
   $("accountEmail").textContent = user.email || "";
-  renderMovies();
+ loadMovies();
 }
 function errorText(code){
   const messages = {
@@ -235,7 +237,28 @@ $("logoutBtn").addEventListener("click", async ()=>{
 
 function escapeHTML(value){
   return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+} 
+async function loadMovies(){
+  try {
+    const snapshot = await getDocs(collection(db, "movies"));
+
+    movies = snapshot.docs.map(item => ({
+      id: item.id,
+      ...item.data()
+    }));
+
+    movies.sort((a, b) =>
+      (b.updatedAt || b.createdAt || 0) -
+      (a.updatedAt || a.createdAt || 0)
+    );
+
+    renderMovies();
+  } catch (error) {
+    console.error("Firestore error:", error);
+    toast("Movies load failed. Check Firestore Rules.");
+  }
 }
+
 function renderMovies(){
   $("totalMovies").textContent = movies.length;
   $("totalCategories").textContent = new Set(movies.map(m=>m.category)).size;
@@ -252,8 +275,8 @@ function go(page){
   $("pageTitle").textContent=titles[page] || "Dashboard";
   if(page==="overview" || page==="movies") renderMovies();
 }
-document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
-document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.goto)));
+document.querySelectorAll("[data-page]").forEach(b=>b.b.addEventListener("click", () => editMovie(b.dataset.edit))
+document.querySelectorAll("[data-goto]").forEach(b=>b.b.addEventListener("click", () => deleteMovie(b.dataset.delete))
 function toast(text){
   const el=$("toast");el.textContent=text;el.style.display="block";
   clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.style.display="none",2400);
@@ -267,13 +290,65 @@ function editMovie(id){
   $("movieImage").value=m.image||"";$("movieUrl").value=m.url||"";$("movieDescription").value=m.description||"";
   $("formTitle").textContent="Edit Movie";go("add");
 }
-function deleteMovie(id){
-  const m=movies.find(x=>x.id===id);if(!m)return;
-  if(confirm(`Remove "${m.title}" from the demo list?`)){
-    movies=movies.filter(x=>x.id!==id);renderMovies();toast("Removed from demo list.");
+
+async function deleteMovie(id) {
+  const movie = movies.find(item => item.id === id);
+  if (!movie) return;
+
+  if (!confirm(`Delete "${movie.title}" permanently?`)) {
+    return;
+  }
+
+  try {
+    await deleteDoc(doc(db, "movies", id));
+    toast("Movie deleted successfully.");
+    await loadMovies();
+  } catch (error) {
+    console.error("Delete error:", error);
+    toast("Delete failed. Check Firebase Rules.");
   }
 }
-$("movieForm").addEventListener("submit",event=>{
+
+}
+
+$("movieForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const title = $("movieTitle").value.trim();
+  if (!title) return;
+
+  const editId = $("editId").value;
+
+  const movie = {
+    title,
+    category: $("movieCategory").value,
+    image: $("movieImage").value.trim(),
+    url: $("movieUrl").value.trim(),
+    description: $("movieDescription").value.trim(),
+    status: "Published",
+    updatedAt: Date.now()
+  };
+
+  try {
+    if (editId) {
+      await updateDoc(doc(db, "movies", editId), movie);
+      toast("Movie updated successfully.");
+    } else {
+      movie.createdAt = Date.now();
+      await addDoc(collection(db, "movies"), movie);
+      toast("Movie added successfully.");
+    }
+
+    resetMovieForm();
+    await loadMovies();
+    go("movies");
+
+  } catch (error) {
+    console.error("Save error:", error);
+    toast("Save failed. Check Firebase Rules.");
+  }
+});
+
   event.preventDefault();
   const title=$("movieTitle").value.trim();if(!title)return;
   const id=$("editId").value;
