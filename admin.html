@@ -265,7 +265,7 @@ function renderMovies(){
   const row = m => `<tr><td><div class="movie-cell"><div class="poster">${m.image ? `<img src="${escapeHTML(m.image)}" alt="">` : "▶"}</div><div><b>${escapeHTML(m.title)}</b><div class="sub">${escapeHTML(m.url || "Demo movie")}</div></div></div></td><td>${escapeHTML(m.category)}</td><td><span class="status">${escapeHTML(m.status)}</span></td><td><div class="actions"><button data-edit="${m.id}">Edit</button><button class="del" data-delete="${m.id}">Delete</button></div></td></tr>`;
   $("movieRows").innerHTML = movies.length ? movies.map(row).join("") : '<tr><td colspan="4" class="empty">No demo movies yet. Add one to get started.</td></tr>';
   $("recentRows").innerHTML = movies.slice(0,3).map(m=>`<tr><td>${escapeHTML(m.title)}</td><td>${escapeHTML(m.category)}</td><td><span class="status">${escapeHTML(m.status)}</span></td></tr>`).join("") || '<tr><td colspan="3" class="empty">No movies yet.</td></tr>';
-  document.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editMovie(Number(b.dataset.edit)));
+  document.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editMovie(Number(b.dataset.edit))));
   document.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteMovie(Number(b.dataset.delete))));
 }
 
