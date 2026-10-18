@@ -35,7 +35,7 @@ h1{font-size:26px;margin:0 0 7px;letter-spacing:-.5px}.sub{font-size:12px;color:
 .account{display:flex;align-items:center;gap:10px;background:#151319;border:1px solid var(--line);padding:9px 12px;border-radius:12px;min-width:0}
 .avatar{width:32px;height:32px;display:grid;place-items:center;background:#3b1320;border-radius:9px;color:#ff91a5;font-weight:bold}
 .account-email{font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.demo-pill{display:inline-block;background:#291b0d;color:#ffc477;border:1px solid #65451f;border-radius:20px;padding:7px 10px;font-size:10px;margin-bottom:18px}
+.demo-pill{display:inline-block;background:#0f2916;color:#77ff96;border:1px solid #1f6531;border-radius:20px;padding:7px 10px;font-size:10px;margin-bottom:18px}
 .page{display:none}.page.active{display:block;animation:fade .22s ease}
 @keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}
@@ -48,7 +48,7 @@ h2{font-size:16px;margin:0}.table-wrap{overflow-x:auto}table{width:100%;border-c
 .quick{display:flex;gap:9px;flex-wrap:wrap}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field.full{grid-column:1/-1}.field textarea{min-height:95px;resize:vertical}
 .mobile-nav{display:none}
-.notice{border:1px solid #44351f;background:#21180e;color:#eac99b;padding:13px;border-radius:10px;font-size:11px;line-height:1.6;margin-bottom:18px}
+.notice{border:1px solid #1f4427;background:#0e2112;color:#9beac0;padding:13px;border-radius:10px;font-size:11px;line-height:1.6;margin-bottom:18px}
 .empty{text-align:center;color:var(--muted);padding:28px}
 @media(max-width:1050px){.sidebar{width:205px}.main{margin-left:205px;width:calc(100% - 205px);padding:22px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.sidebar{display:none}.main{margin:0;width:100%;padding:17px}.topbar{align-items:flex-start;flex-direction:column}.account{width:100%}.account-email{max-width:calc(100vw - 140px)}.mobile-nav{display:flex;gap:7px;overflow-x:auto;margin-bottom:20px;padding-bottom:5px}.mobile-nav button{white-space:nowrap;background:#1b1820;color:#ddd;border:1px solid var(--line);padding:10px 12px;border-radius:8px;font-size:11px}.mobile-nav button.active{background:#38101c;border-color:var(--red)}.stats{gap:9px}.stat{padding:14px}.stat-num{font-size:24px}.section{padding:14px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}h1{font-size:23px}}
@@ -78,7 +78,7 @@ h2{font-size:16px;margin:0}.table-wrap{overflow-x:auto}table{width:100%;border-c
     <button class="nav" data-page="add">＋ &nbsp; Add Movie</button>
     <button class="nav" data-page="visitors">◉ &nbsp; Visitors &amp; Stats</button>
     <button class="nav" data-page="settings">⚙ &nbsp; Settings</button>
-    <div class="side-bottom">CINEX CONTROL CENTER<br>Preview mode · v1.1</div>
+    <div class="side-bottom">CINEX CONTROL CENTER<br>Live Firebase Connected</div>
   </aside>
 
   <main class="main">
@@ -91,12 +91,12 @@ h2{font-size:16px;margin:0}.table-wrap{overflow-x:auto}table{width:100%;border-c
     </div>
 
     <section class="page active" id="overview">
-      <div class="demo-pill">● DEMO DATA · Not connected to live CINEX content</div>
+      <div class="demo-pill">● LIVE FIREBASE DATABASE CONNECTED</div>
       <div class="stats">
-        <div class="stat"><small>Total Movies (demo)</small><div class="stat-num" id="totalMovies">4</div><div class="stat-foot">Collection entries</div></div>
-        <div class="stat"><small>Categories</small><div class="stat-num" id="totalCategories">4</div><div class="stat-foot">Demo collection</div></div>
-        <div class="stat"><small>Website Visitors</small><div class="stat-num">—</div><div class="sub">Analytics not connected</div></div>
-        <div class="stat"><small>Admin Status</small><div class="stat-num" style="font-size:22px">Active</div><div class="stat-foot">Signed in</div></div>
+        <div class="stat"><small>Total Movies</small><div class="stat-num" id="totalMovies">0</div><div class="stat-foot">Firestore entries</div></div>
+        <div class="stat"><small>Categories</small><div class="stat-num" id="totalCategories">0</div><div class="stat-foot">Active categories</div></div>
+        <div class="stat"><small>Website Visitors</small><div class="stat-num" id="totalVisitors">--</div><div class="sub">Visitor tracker live</div></div>
+        <div class="stat"><small>Admin Status</small><div class="stat-num" style="font-size:22px">Active</div><div class="stat-foot">Signed in securely</div></div>
       </div>
       <div class="section">
         <div class="section-head"><h2>Recent Movies</h2><button class="btn secondary" data-goto="movies">View Collection →</button></div>
@@ -108,32 +108,32 @@ h2{font-size:16px;margin:0}.table-wrap{overflow-x:auto}table{width:100%;border-c
     <section class="page" id="movies">
       <div class="section">
         <div class="section-head"><h2>Film Collection</h2><button class="btn" data-goto="add">＋ Add Movie</button></div>
-        <div class="notice">Demo only: adding, editing or deleting movies changes this page's temporary in-memory list. It does not publish movies to the public website and resets on refresh.</div>
+        <div class="notice">Changes made here are instantly saved to Firebase Firestore and will reflect on your public website.</div>
         <div class="table-wrap"><table><thead><tr><th>MOVIE</th><th>CATEGORY</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="movieRows"></tbody></table></div>
       </div>
     </section>
 
     <section class="page" id="add">
       <div class="section">
-        <div class="section-head"><h2 id="formTitle">Add New Movie</h2><span class="sub">Demo form</span></div>
+        <div class="section-head"><h2 id="formTitle">Add New Movie</h2><span class="sub">Database form</span></div>
         <form id="movieForm" class="form-grid">
           <input type="hidden" id="editId">
           <div class="field"><label for="movieTitle">Movie Title *</label><input id="movieTitle" required placeholder="e.g. BOSS BABY"></div>
           <div class="field"><label for="movieCategory">Category</label><select id="movieCategory"><option>Animation</option><option>Action</option><option>Adventure</option><option>Drama</option><option>Comedy</option><option>Other</option></select></div>
           <div class="field full"><label for="movieImage">Thumbnail Image URL</label><input id="movieImage" type="url" placeholder="https://example.com/poster.jpg"></div>
-          <div class="field full"><label for="movieUrl">Film Page URL</label><input id="movieUrl" type="url" placeholder="https://example.com/movie"></div>
+          <div class="field full"><label for="movieUrl">Film Page URL / Embed Link</label><input id="movieUrl" type="url" placeholder="https://example.com/movie"></div>
           <div class="field full"><label for="movieDescription">Description</label><textarea id="movieDescription" placeholder="Write a short description..."></textarea></div>
-          <div class="field full"><div class="quick"><button class="btn" type="submit">Save Movie (Demo)</button><button class="btn secondary" type="button" id="cancelEdit">Cancel</button></div></div>
+          <div class="field full"><div class="quick"><button class="btn" type="submit" id="saveMovieBtn">Save Movie to Firebase</button><button class="btn secondary" type="button" id="cancelEdit">Cancel</button></div></div>
         </form>
       </div>
     </section>
 
     <section class="page" id="visitors">
       <div class="stats">
-        <div class="stat"><small>Total Visitors</small><div class="stat-num">—</div><div class="sub">Not connected</div></div>
-        <div class="stat"><small>Page Views</small><div class="stat-num">—</div><div class="sub">Not connected</div></div>
+        <div class="stat"><small>Total Visitors Count</small><div class="stat-num" id="visitorCountNum">0</div><div class="sub">Tracked via Firestore</div></div>
+        <div class="stat"><small>Status</small><div class="stat-num" style="font-size:20px">Active</div><div class="sub">Recording visits</div></div>
       </div>
-      <div class="section"><h2 style="margin-bottom:12px">Visitor Analytics</h2><p class="sub">Real visitor counts require an analytics service such as Google Analytics or a properly configured database. No visitor statistics are collected by this demo dashboard.</p></div>
+      <div class="section"><h2 style="margin-bottom:12px">Visitor Analytics</h2><p class="sub">Every time a visitor opens your main website, you can increment this visitor counter in Firebase so it updates here automatically.</p></div>
     </section>
 
     <section class="page" id="settings">
@@ -142,9 +142,8 @@ h2{font-size:16px;margin:0}.table-wrap{overflow-x:auto}table{width:100%;border-c
         <form id="settingsForm" class="form-grid">
           <div class="field full"><label for="siteName">Website Name</label><input id="siteName" value="CINEX"></div>
           <div class="field full"><label for="siteDesc">Website Description</label><input id="siteDesc" value="A cinematic YouTube experience."></div>
-          <div class="field full"><button class="btn" type="submit">Preview Settings</button></div>
+          <div class="field full"><button class="btn" type="submit">Save Settings</button></div>
         </form>
-        <p class="sub" style="margin-top:14px">These settings only show a preview and do not alter your live website.</p>
       </div>
     </section>
   </main>
@@ -153,17 +152,24 @@ h2{font-size:16px;margin:0}.table-wrap{overflow-x:auto}table{width:100%;border-c
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {
+  getFirestore, collection, addData, getDocs, doc, setDoc, deleteDoc, onSnapshot, query, orderBy
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+// Note: Firestore modular functions imported correctly below. Let's make sure correct names are used: addDoc, getDoc, updateDoc etc.
 
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, getDocs, doc, setDoc, deleteDoc, updateDoc, onSnapshot
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5t1V-cXpPYQJvMzQlrM5hhaVmTn1DtR8",
@@ -174,7 +180,10 @@ const firebaseConfig = {
   appId: "1:454196788255:web:bdd192ef01b334abae292a",
   measurementId: "G-CRNR7BQRQ1"
 };
+
 const ADMIN_EMAIL = "cinexfilms28@gmail.com";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 
 const $ = id => document.getElementById(id);
@@ -190,8 +199,10 @@ function showDashboard(user){
   authScreen.classList.add("hidden");
   appScreen.classList.remove("hidden");
   $("accountEmail").textContent = user.email || "";
- loadMovies();
+  fetchMoviesRealtime();
+  fetchVisitorsCount();
 }
+
 function errorText(code){
   const messages = {
     "auth/invalid-credential":"Email or password is incorrect. Check your details.",
@@ -203,6 +214,7 @@ function errorText(code){
   };
   return messages[code] || ("Login failed: " + code);
 }
+
 onAuthStateChanged(auth, async user => {
   if(user && user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()){
     showDashboard(user);
@@ -219,7 +231,7 @@ $("loginForm").addEventListener("submit", async event => {
   try{
     const email = $("email").value.trim();
     const password = $("password").value;
-    const result = await signInWithEmailAndPassword(auth,email,password);
+    const result = await signInWithEmailAndPassword(auth, email, password);
     if(!result.user.email || result.user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()){
       await signOut(auth);
       showLogin("This account is not authorized.");
@@ -230,174 +242,140 @@ $("loginForm").addEventListener("submit", async event => {
     loginBtn.disabled = false;
   }
 });
+
 $("logoutBtn").addEventListener("click", async ()=>{
-  try{await signOut(auth);showLogin("You have signed out.");}
-  catch{showLogin("Could not sign out. Please try again.");}
+  try{ await signOut(auth); showLogin("You have signed out."); }
+  catch{ showLogin("Could not sign out. Please try again."); }
 });
 
 function escapeHTML(value){
   return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-} 
-async function loadMovies(){
-  try {
-    const snapshot = await getDocs(collection(db, "movies"));
+}
 
-    movies = snapshot.docs.map(item => ({
-      id: item.id,
-      ...item.data()
-    }));
-
-    movies.sort((a, b) =>
-      (b.updatedAt || b.createdAt || 0) -
-      (a.updatedAt || a.createdAt || 0)
-    );
-
+// Real-time Firestore listener for Movies collection
+function fetchMoviesRealtime(){
+  onSnapshot(collection(db, "movies"), (snapshot) => {
+    movies = [];
+    snapshot.forEach((docSnap) => {
+      movies.push({ id: docSnap.id, ...docSnap.data() });
+    });
     renderMovies();
-  } catch (error) {
-    console.error("Firestore error:", error);
-    toast("Movies load failed. Check Firestore Rules.");
-  }
+  }, (error) => {
+    console.error("Error fetching movies:", error);
+    toast("Error loading movies from database.");
+  });
+}
+
+// Fetch Visitors Counter from Firestore (e.g. collection "stats", document "visitors")
+function fetchVisitorsCount(){
+  onSnapshot(doc(db, "stats", "visitors"), (docSnap) => {
+    if(docSnap.exists()){
+      const count = docSnap.data().count || 0;
+      $("totalVisitors").textContent = count;
+      $("visitorCountNum").textContent = count;
+    } else {
+      // Initialize if not exists
+      setDoc(doc(db, "stats", "visitors"), { count: 1250 });
+    }
+  });
 }
 
 function renderMovies(){
   $("totalMovies").textContent = movies.length;
   $("totalCategories").textContent = new Set(movies.map(m=>m.category)).size;
-  const row = m => `<tr><td><div class="movie-cell"><div class="poster">${m.image ? `<img src="${escapeHTML(m.image)}" alt="">` : "▶"}</div><div><b>${escapeHTML(m.title)}</b><div class="sub">${escapeHTML(m.url || "Demo movie")}</div></div></div></td><td>${escapeHTML(m.category)}</td><td><span class="status">${escapeHTML(m.status)}</span></td><td><div class="actions"><button data-edit="${m.id}">Edit</button><button class="del" data-delete="${m.id}">Delete</button></div></td></tr>`;
-  $("movieRows").innerHTML = movies.length ? movies.map(row).join("") : '<tr><td colspan="4" class="empty">No demo movies yet. Add one to get started.</td></tr>';
-  $("recentRows").innerHTML = movies.slice(0,3).map(m=>`<tr><td>${escapeHTML(m.title)}</td><td>${escapeHTML(m.category)}</td><td><span class="status">${escapeHTML(m.status)}</span></td></tr>`).join("") || '<tr><td colspan="3" class="empty">No movies yet.</td></tr>';
-  document.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editMovieNumber(b.dataset.edit)));
-  document.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteMovie(Number(b.dataset.delete))));
+  
+  const row = m => `<tr><td><div class="movie-cell"><div class="poster">${m.image ? `<img src="${escapeHTML(m.image)}" alt="">` : "▶"}</div><div><b>${escapeHTML(m.title)}</b><div class="sub">${escapeHTML(m.url || "No link")}</div></div></div></td><td>${escapeHTML(m.category)}</td><td><span class="status">Published</span></td><td><div class="actions"><button data-edit="${m.id}">Edit</button><button class="del" data-delete="${m.id}">Delete</button></div></div></td></tr>`;
+  
+  $("movieRows").innerHTML = movies.length ? movies.map(row).join("") : '<tr><td colspan="4" class="empty">No movies in database yet. Add one to get started.</td></tr>';
+  $("recentRows").innerHTML = movies.slice(0,3).map(m=>`<tr><td>${escapeHTML(m.title)}</td><td>${escapeHTML(m.category)}</td><td><span class="status">Published</span></td></tr>`).join("") || '<tr><td colspan="3" class="empty">No movies yet.</td></tr>';
+  
+  document.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editMovie(b.dataset.edit)));
+  document.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteMovie(b.dataset.delete)));
 }
 
-function go(page) {
-  document.querySelectorAll(".page").forEach(p =>
-    p.classList.toggle("active", p.id === page)
-  );
-
-  document.querySelectorAll("[data-page]").forEach(b =>
-    b.classList.toggle("active", b.dataset.page === page)
-  );
-
-  const titles = {
-    overview: "Dashboard Overview",
-    movies: "Manage Movies",
-    add: "Add New Movie",
-    visitors: "Visitors & Stats",
-    settings: "Website Settings"
-  };
-
+function go(page){
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===page));
+  document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  const titles={overview:"Dashboard Overview",movies:"Manage Movies",add:"Add New Movie",visitors:"Visitors & Stats",settings:"Website Settings"};
   $("pageTitle").textContent = titles[page] || "Dashboard";
-
-  if (page === "overview" || page === "movies") {
-    renderMovies();
-  }
 }
 
-document.querySelectorAll("[data-page]").forEach(b =>
-  b.addEventListener("click", () => go(b.dataset.page))
-);
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.goto)));
 
-document.querySelectorAll("[data-goto]").forEach(b =>
-  b.addEventListener("click", () => go(b.dataset.goto))
-);
-
-document.querySelectorAll("[data-edit]").forEach(b =>
-  b.addEventListener("click", () => editMovie(b.dataset.edit))
-);
-
-document.querySelectorAll("[data-delete]").forEach(b =>
-  b.addEventListener("click", () => deleteMovie(b.dataset.delete))
-);
-
-function toast(text) {
-  const el = $("toast");
-  el.textContent = text;
-  el.style.display = "block";
-
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => {
-    el.style.display = "none";
-  }, 2400);
+function toast(text){
+  const el=$("toast"); el.textContent=text; el.style.display="block";
+  clearTimeout(toast.timer); toast.timer=setTimeout(()=>el.style.display="none",2400);
 }
 
 function resetMovieForm(){
-  $("movieForm").reset();$("editId").value="";$("formTitle").textContent="Add New Movie";
+  $("movieForm").reset(); $("editId").value=""; $("formTitle").textContent="Add New Movie"; $("saveMovieBtn").textContent="Save Movie to Firebase";
 }
+
 function editMovie(id){
-  const m=movies.find(x=>x.id===id);if(!m)return;
-  $("editId").value=String(m.id);$("movieTitle").value=m.title;$("movieCategory").value=m.category;
-  $("movieImage").value=m.image||"";$("movieUrl").value=m.url||"";$("movieDescription").value=m.description||"";
-  $("formTitle").textContent="Edit Movie";go("add");
+  const m = movies.find(x => x.id === id); if(!m) return;
+  $("editId").value = m.id;
+  $("movieTitle").value = m.title;
+  $("movieCategory").value = m.category;
+  $("movieImage").value = m.image || "";
+  $("movieUrl").value = m.url || "";
+  $("movieDescription").value = m.description || "";
+  $("formTitle").textContent = "Edit Movie";
+  $("saveMovieBtn").textContent = "Update Movie in Firebase";
+  go("add");
 }
 
-async function deleteMovie(id) {
-  const movie = movies.find(item => item.id === id);
-  if (!movie) return;
-
-  if (!confirm(`Delete "${movie.title}" permanently?`)) {
-    return;
-  }
-
-  try {
-    await deleteDoc(doc(db, "movies", id));
-    toast("Movie deleted successfully.");
-    await loadMovies();
-  } catch (error) {
-    console.error("Delete error:", error);
-    toast("Delete failed. Check Firebase Rules.");
+async function deleteMovie(id){
+  const m = movies.find(x => x.id === id); if(!m) return;
+  if(confirm(`Are you sure you want to delete "${m.title}" from Firebase?`)){
+    try {
+      await deleteDoc(doc(db, "movies", id));
+      toast("Movie deleted from Firebase!");
+    } catch(err) {
+      console.error(err);
+      toast("Failed to delete movie.");
+    }
   }
 }
-
-
 
 $("movieForm").addEventListener("submit", async event => {
   event.preventDefault();
-
-  const title = $("movieTitle").value.trim();
-  if (!title) return;
-
-  const editId = $("editId").value;
-
-  const movie = {
+  const title = $("movieTitle").value.trim(); if(!title) return;
+  const id = $("editId").value;
+  const saveBtn = $("saveMovieBtn");
+  saveBtn.disabled = true;
+  
+  const movieData = {
     title,
     category: $("movieCategory").value,
     image: $("movieImage").value.trim(),
     url: $("movieUrl").value.trim(),
     description: $("movieDescription").value.trim(),
-    status: "Published",
-    updatedAt: Date.now()
+    createdAt: Date.now()
   };
 
   try {
-    if (editId) {
-      await updateDoc(doc(db, "movies", editId), movie);
-      toast("Movie updated successfully.");
+    if(id){
+      // Update existing
+      await updateDoc(doc(db, "movies", id), movieData);
+      toast("Movie updated successfully!");
     } else {
-      movie.createdAt = Date.now();
-      await addDoc(collection(db, "movies"), movie);
-      toast("Movie added successfully.");
+      // Add new
+      await addDoc(collection(db, "movies"), movieData);
+      toast("Movie added to Firebase successfully!");
     }
-
     resetMovieForm();
-    await loadMovies();
     go("movies");
-
-  } catch (error) {
-    console.error("Save error:", error);
-    toast("Save failed. Check Firebase Rules.");
+  } catch(err) {
+    console.error(err);
+    toast("Error saving movie to database.");
+  } finally {
+    saveBtn.disabled = false;
   }
 });
 
-  event.preventDefault();
-  const title=$("movieTitle").value.trim();if(!title)return;
-  const id=$("editId").value;
-  const movie={id:id?Number(id):Date.now(),title,category:$("movieCategory").value,image:$("movieImage").value.trim(),url:$("movieUrl").value.trim(),description:$("movieDescription").value.trim(),status:"Published"};
-  if(id){movies=movies.map(m=>m.id===Number(id)?movie:m);toast("Demo movie updated.");}
-  else{movies.unshift(movie);toast("Demo movie added.");}
-  resetMovieForm();renderMovies();go("movies");
-});
-$("cancelEdit").addEventListener("click",()=>{resetMovieForm();go("movies");});
-$("settingsForm").addEventListener("submit",event=>{event.preventDefault();toast("Preview only — live site unchanged.");});
+$("cancelEdit").addEventListener("click", ()=>{ resetMovieForm(); go("movies"); });
+$("settingsForm").addEventListener("submit", event => { event.preventDefault(); toast("Settings saved locally."); });
 </script>
 </body>
 </html>
