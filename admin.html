@@ -268,19 +268,58 @@ function renderMovies(){
   document.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editMovie(Number(b.dataset.edit))));
   document.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteMovie(Number(b.dataset.delete))));
 }
-function go(page){
-  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===page));
-  document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
-  const titles={overview:"Dashboard Overview",movies:"Manage Movies",add:"Add New Movie",visitors:"Visitors & Stats",settings:"Website Settings"};
-  $("pageTitle").textContent=titles[page] || "Dashboard";
-  if(page==="overview" || page==="movies") renderMovies();
+
+function go(page) {
+  document.querySelectorAll(".page").forEach(p =>
+    p.classList.toggle("active", p.id === page)
+  );
+
+  document.querySelectorAll("[data-page]").forEach(b =>
+    b.classList.toggle("active", b.dataset.page === page)
+  );
+
+  const titles = {
+    overview: "Dashboard Overview",
+    movies: "Manage Movies",
+    add: "Add New Movie",
+    visitors: "Visitors & Stats",
+    settings: "Website Settings"
+  };
+
+  $("pageTitle").textContent = titles[page] || "Dashboard";
+
+  if (page === "overview" || page === "movies") {
+    renderMovies();
+  }
 }
-document.querySelectorAll("[data-page]").forEach(b=>b.b.addEventListener("click", () => editMovie(b.dataset.edit))
-document.querySelectorAll("[data-goto]").forEach(b=>b.b.addEventListener("click", () => deleteMovie(b.dataset.delete))
-function toast(text){
-  const el=$("toast");el.textContent=text;el.style.display="block";
-  clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.style.display="none",2400);
+
+document.querySelectorAll("[data-page]").forEach(b =>
+  b.addEventListener("click", () => go(b.dataset.page))
+);
+
+document.querySelectorAll("[data-goto]").forEach(b =>
+  b.addEventListener("click", () => go(b.dataset.goto))
+);
+
+document.querySelectorAll("[data-edit]").forEach(b =>
+  b.addEventListener("click", () => editMovie(b.dataset.edit))
+);
+
+document.querySelectorAll("[data-delete]").forEach(b =>
+  b.addEventListener("click", () => deleteMovie(b.dataset.delete))
+);
+
+function toast(text) {
+  const el = $("toast");
+  el.textContent = text;
+  el.style.display = "block";
+
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => {
+    el.style.display = "none";
+  }, 2400);
 }
+
 function resetMovieForm(){
   $("movieForm").reset();$("editId").value="";$("formTitle").textContent="Add New Movie";
 }
